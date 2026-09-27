@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-900 text-slate-200;
+}
+
+.project-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(165, 180, 252, 0.9) rgba(15, 23, 42, 0.65);
+}
+
+.project-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.project-scroll::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 9999px;
+}
+
+.project-scroll::-webkit-scrollbar-thumb {
+  background: rgba(165, 180, 252, 0.9);
+  border-radius: 9999px;
+  border: 2px solid rgba(15, 23, 42, 0.65);
+}
+
+.project-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(196, 181, 253, 1);
+}
