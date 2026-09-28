@@ -4,23 +4,37 @@ import { Mail, Phone, Github, Linkedin } from 'lucide-react';
 export default function Contact() {
   const [status, setStatus] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = { nome: formData.get('nome'), email: formData.get('email'), mensagem: formData.get('mensagem') };
+    
+    // Salva o formulário na memória AGORA, antes de qualquer pausa
+    const form = e.currentTarget; 
+    
+    const formData = new FormData(form);
+    const data = { 
+      nome: formData.get('nome'), 
+      email: formData.get('email'), 
+      mensagem: formData.get('mensagem') 
+    };
 
     try {
-      await fetch('http://localhost:3001/api/contato', {
+      const response = await fetch('http://localhost:3001/api/contatos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      setStatus('Mensagem enviada com sucesso!');
-      e.currentTarget.reset();
-    } catch (error) {
-      setStatus('Erro ao enviar mensagem.');
+      
+      if (response.ok) {
+        setStatus('Mensagem enviada com sucesso!');
+        form.reset(); // Usa a variável que salvamos lá em cima
+      } else {
+        setStatus('Erro: O servidor recusou os dados.');
+      }
+    } catch (error: any) {
+      setStatus('Erro técnico: ' + error.message);
     }
   };
+
 
   return (
     <section className="py-20 px-6 max-w-4xl mx-auto">
@@ -34,15 +48,15 @@ export default function Contact() {
           </p>
           <div className="flex items-center gap-4 text-slate-200">
             <Mail className="text-indigo-400" />
-            <span>email@exemplo.com</span>
+            <span>jn.bignon@gmail.com</span>
           </div>
           <div className="flex items-center gap-4 text-slate-200">
             <Phone className="text-indigo-400" />
-            <span>+55 (11) 99999-9999</span>
+            <span>+55 (21) 97428-6828</span>
           </div>
           <div className="flex gap-4 mt-4">
-            <a href="#" className="p-2 bg-slate-800 text-slate-200 rounded-full hover:bg-indigo-600 hover:text-white transition-all"><Github /></a>
-            <a href="#" className="p-2 bg-slate-800 text-slate-200 rounded-full hover:bg-indigo-600 hover:text-white transition-all"><Linkedin /></a>
+            <a href="https://github.com/JotaR-Dev" className="p-2 bg-slate-800 text-slate-200 rounded-full hover:bg-indigo-600 hover:text-white transition-all"><Github /></a>
+            <a href="https://www.linkedin.com/in/jeferson-bignon-278ba43a5/" className="p-2 bg-slate-800 text-slate-200 rounded-full hover:bg-indigo-600 hover:text-white transition-all"><Linkedin /></a>
           </div>
         </div>
 

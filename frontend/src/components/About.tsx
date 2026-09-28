@@ -12,7 +12,7 @@ export default function About() {
             className="w-48 h-48 rounded-full shadow-2xl object-cover border-4 border-indigo-500"
           />
           <div>
-            <h2 className="text-4xl font-bold text-slate-100 mb-4">Olá, eu sou um Engenheiro de Software Full-Stack</h2>
+            <h2 className="text-4xl font-bold text-slate-100 mb-4">Jeferson Bignon (JotaR-Dev)</h2>
             <p className="text-slate-300 text-lg mb-6 leading-relaxed">
               Especialista em construir soluções completas, da modelagem de dados à interface do usuário. 
               Foco em arquitetura escalável, código limpo e performance.
