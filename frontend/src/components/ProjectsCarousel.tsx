@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const projetos = [
-  { id: 1, title: 'Sistema SaaS', desc: 'Plataforma multi-tenant com Node e React.', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop', url: '#' },
-  { id: 2, title: 'E-commerce API', desc: 'API robusta para pagamentos e estoque.', img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop', url: '#' },
-  { id: 3, title: 'Dashboard Analytics', desc: 'Visualização de dados em tempo real.', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop', url: '#' },
+  { id: 1, title: 'Local Website Prospecting System | Maricá & RJ', desc: 'Automação de leads para web development | Busca eficiente na sua região.', img: 'projeto1.jpg', url: '#' },
+  { id: 2, title: 'YA Beleza no olhar', desc: 'Implementação de um portal de agendamento digital personalizado,\npermitindo que os usuários selecionem serviços e reservem horários em tempo real,\neliminando agendamentos manuais.', img: 'projeto2.jpg', url: '#' },
+  { id: 3, title: 'MT Performance', desc: 'Desenvolvimento de um website para a oficina MT Performance,\ncom o objetivo de elevar o profissionalismo da marca no mercado de preparação automotiva.\nA plataforma foi estruturada para otimizar a conexão direta com os clientes\ne atuar como uma vitrine digital de alta, exibindo de forma detalhada\no portfólio de projetos e carros turbo de rua já concluídos.', img: 'projeto3.jpg', url: '#' },
 ];
 
 export default function ProjectsCarousel() {
@@ -21,7 +21,7 @@ export default function ProjectsCarousel() {
             <img src={proj.img} alt={proj.title} className="w-full h-48 object-cover" />
             <div className="p-6">
               <h3 className="text-xl font-bold text-slate-100 mb-2">{proj.title}</h3>
-              <p className="text-slate-300 mb-4">{proj.desc}</p>
+              <p className="text-slate-300 mb-4 whitespace-pre-line">{proj.desc}</p>
               <a href={proj.url} className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
                 Ver projeto &rarr;
               </a>

@@ -37,13 +37,14 @@ export default function Contact() {
 
 
   return (
-    <section className="py-20 px-6 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-12 text-slate-100">Entre em Contato</h2>
-      <div className="grid md:grid-cols-2 gap-12">
+    <section className="py-20 px-6 bg-slate-800/40">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12 text-slate-100">Entre em Contato</h2>
+        <div className="grid md:grid-cols-2 gap-12">
         
         {/* Informações de Contato */}
         <div className="flex flex-col justify-center space-y-6">
-          <p className="text-slate-300 text-lg">
+          <p className="text-slate-300 text-lg mb-2 -translate-y-16">
             Estou aberto a novas oportunidades e projetos. Sinta-se à vontade para me mandar uma mensagem!
           </p>
           <div className="flex items-center gap-4 text-slate-200">
@@ -80,6 +81,7 @@ export default function Contact() {
           {status && <p className="text-center mt-4 text-indigo-400 font-medium">{status}</p>}
         </form>
 
+        </div>
       </div>
     </section>
   );

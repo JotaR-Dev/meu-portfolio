@@ -15,7 +15,7 @@ export default function Reviews() {
   return (
     <section className="py-20 px-6 max-w-6xl mx-auto" id="avaliacoes">
       <AnimatedSection>
-        <h2 className="text-3xl font-bold text-slate-100 mb-10 text-center">Avaliações</h2>
+        <h2 className="text-3xl font-bold text-slate-100 mb-10 text-center">Avalie um de meus projetos</h2>
         
         <div className="grid md:grid-cols-2 gap-12">
           {/* Lista de Avaliações */}
