@@ -1,35 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Trash2, MessageSquare, Star } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+
+interface Contact {
+  id: number;
+  nome: string;
+  email: string;
+  mensagem: string;
+}
+
+interface Review {
+  id: number;
+  nome: string;
+  nome_projeto: string;
+  descricao: string;
+}
 
 export default function Admin() {
   const [abaAtiva, setAbaAtiva] = useState<'contatos' | 'avaliacoes'>('contatos');
-  const [contatos, setContatos] = useState<any[]>([]);
-  const [avaliacoes, setAvaliacoes] = useState<any[]>([]);
+  const [contatos, setContatos] = useState<Contact[]>([]);
+  const [avaliacoes, setAvaliacoes] = useState<Review[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    carregarDados();
+  const carregarDados = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const [contactsResult, reviewsResult] = await Promise.all([
+        supabase.from('contatos').select('id, nome, email, mensagem').order('id', { ascending: false }),
+        supabase.from('avaliacoes').select('id, nome, nome_projeto, descricao').order('id', { ascending: false }),
+      ]);
+
+      if (contactsResult.error) throw contactsResult.error;
+      if (reviewsResult.error) throw reviewsResult.error;
+
+      setContatos(contactsResult.data ?? []);
+      setAvaliacoes(reviewsResult.data ?? []);
+    } catch (loadError: unknown) {
+      console.error('Erro ao carregar dados do painel', loadError);
+      setError('Não foi possível carregar os dados. Verifique a configuração do Supabase.');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const carregarDados = async () => {
-    try {
-      const resContatos = await fetch('http://localhost:3001/api/contatos');
-      setContatos(await resContatos.json());
-
-      const resAvaliacoes = await fetch('http://localhost:3001/api/avaliacoes');
-      setAvaliacoes(await resAvaliacoes.json());
-    } catch (error) {
-      console.error("Erro ao carregar dados", error);
-    }
-  };
+  useEffect(() => {
+    void carregarDados();
+  }, [carregarDados]);
 
   const deletarItem = async (tipo: 'contatos' | 'avaliacoes', id: number) => {
     if (!window.confirm('Tem certeza que deseja apagar?')) return;
-    
+
     try {
-      await fetch(`http://localhost:3001/api/${tipo}/${id}`, { method: 'DELETE' });
-      carregarDados(); // Recarrega a lista após apagar
-    } catch (error) {
-      alert('Erro ao apagar item.');
+      const result = tipo === 'contatos'
+        ? await supabase.from('contatos').delete().eq('id', id)
+        : await supabase.from('avaliacoes').delete().eq('id', id);
+      if (result.error) throw result.error;
+      await carregarDados();
+    } catch (deleteError: unknown) {
+      console.error('Erro ao apagar item do painel', deleteError);
+      setError('Não foi possível apagar o item.');
     }
   };
 
@@ -37,6 +68,11 @@ export default function Admin() {
     <div className="min-h-screen bg-slate-900 text-slate-200 p-8">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-white">Painel Administrativo</h1>
+        <p className="mb-6 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-amber-200">
+          Este painel é público. Qualquer visitante pode visualizar e apagar mensagens de contato e avaliações.
+        </p>
+        {error && <p role="alert" className="mb-6 text-red-400">{error}</p>}
+        {isLoading && <p className="mb-6 text-slate-400">Carregando dados...</p>}
         
         {/* Abas de Navegação */}
         <div className="flex gap-4 mb-8 border-b border-slate-700 pb-4">
