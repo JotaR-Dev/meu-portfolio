@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "API do Portfólio",
   "main": "src/server.ts",
-  "scripts": {
-    "dev": "nodemon src/server.ts",
-    "start": "ts-node src/server.ts"
+    "scripts": {
+    "dev": "ts-node-dev server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
