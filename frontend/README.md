@@ -1,75 +1,14 @@
-# React + TypeScript + Vite
+# Portfolio frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Configurar o Supabase
 
-Currently, two official plugins are available:
+1. Crie um projeto no [Supabase](https://supabase.com/dashboard).
+2. No projeto, abra o **SQL Editor** e execute o conteúdo de [`../database.sql`](../database.sql). O script cria as tabelas `avaliacoes` e `contatos`, ativa RLS e configura o acesso público usado pelo app. Mantenha a **Data API** habilitada e as tabelas no schema `public` expostas à API.
+3. Copie `.env.example` para `.env.local` e preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` com os valores de **Project URL** e **Publishable key** no painel **Connect** do Supabase.
+4. Na pasta `frontend`, execute `npm install` e `npm run dev`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Use somente a chave publicável no frontend. Nunca coloque uma `service_role` ou secret key em variáveis `VITE_` ou em arquivos enviados ao navegador.
 
-## React Compiler
+## Acesso público
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+Os formulários de contato e avaliação funcionam sem login. Avaliações são públicas. Por decisão do projeto, `/admin` também é público: qualquer visitante pode ler e apagar avaliações e mensagens, inclusive endereços de e-mail. A chave publicável não protege esses dados; as permissões são deliberadamente abertas pelas políticas RLS em `database.sql`. Os formulários também aceitam envios de qualquer visitante, então podem receber spam. Não use essa configuração se as mensagens precisarem ser privadas; para restringir ou moderar envios, adicione autenticação ou validação/rate limiting no servidor.
